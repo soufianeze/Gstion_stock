@@ -581,16 +581,20 @@ async function chargerDepuisExcel(){
     nextId = products.length + 1;
     // Statut fichier
     const fname = data.fichier.split(/[/\\]/).pop();
-    document.getElementById('excelName').textContent = fname;
+    document.getElementById('excelName').textContent = 'Stockage Cloud';
     setSyncBadge('ok','Excel synchronisé');
     document.getElementById('lastSave').textContent='Chargé à '+nowStr().split(' ')[1]||nowStr();
     // Statut fichier détaillé
-    const st = await fetch(`${API}/statut`).then(r=>r.json());
-    document.getElementById('excelInfo').textContent=`${st.taille_ko} Ko — MAJ ${st.modifie}`;
+    try{
+      const st = await fetch(`${API}/statut`).then(r=>r.json());
+      document.getElementById('excelInfo').textContent='✅ Connecté — MAJ '+st.modifie;
+    }catch(e){
+      document.getElementById('excelInfo').textContent='✅ Connecté';
+    }
     renderAll();
   }catch(e){
     setSyncBadge('error','Serveur non trouvé');
-    document.getElementById('excelInfo').textContent='❌ Impossible de lire le fichier';
+    document.getElementById('excelInfo').textContent='❌ Serveur non trouvé';
     console.error(e);
   }
 }
@@ -608,7 +612,7 @@ async function sauvegarderDansExcel(){
       document.getElementById('lastSave').textContent='Sauvegardé à '+nowStr().split(' ').pop();
       // Rafraîchir info fichier
       const st = await fetch(`${API}/statut`).then(r=>r.json());
-      document.getElementById('excelInfo').textContent=`${st.taille_ko} Ko — MAJ ${st.modifie}`;
+      document.getElementById('excelInfo').textContent='✅ Connecté — MAJ '+st.modifie;
     } else {
       setSyncBadge('error', data.message);
     }
