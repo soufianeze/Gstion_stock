@@ -533,7 +533,7 @@
 // ÉTAT
 // ═══════════════════════════════════════════════════════
 let products=[], mouvements=[], editId=null, nextId=1, charts={};
-const API = 'http://localhost:5000/api';
+const API = window.location.origin + '/api';
 
 // ── Utils dates
 const nowISO  = () => new Date().toISOString();
