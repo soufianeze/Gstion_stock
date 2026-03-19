@@ -32,7 +32,13 @@ def now_str():
 # ══════════════════════════════════════════════════════
 # LIRE depuis Excel
 # ══════════════════════════════════════════════════════
+def init_excel():
+    """Crée un fichier Excel vide s'il n'existe pas."""
+    if not os.path.exists(EXCEL_FILE):
+        ecrire_excel([], [])
+
 def lire_excel():
+    init_excel()
     if not os.path.exists(EXCEL_FILE):
         return [], []
 
